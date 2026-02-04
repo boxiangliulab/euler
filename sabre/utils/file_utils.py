@@ -418,7 +418,7 @@ def generate_reads(opt, output_sam_paths):
 
         # Filter these reads by alignment score
         if len(alignment_scores) == 0:
-            raise RuntimeError("No reads are taken. Please check whether the BAM file is corrupted or input_type is correctly given.")
+            raise RuntimeError("No reads are taken. Please check whether the BAM file is corrupted or/and input_type is correctly given or/and MAPQ is correctly given.")
 
         ALIGNMENT_FILTER = np.percentile(alignment_scores, opt.as_quality*100) if opt.as_quality > 0 else -2
         for umi_barcode, lines in umibarcode_line_map.items():

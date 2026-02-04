@@ -276,6 +276,7 @@ def test_graph(G: nx.Graph):
     if len(somatic_variants) > 1 or len(somatic_set) != 2:
         return set(), somatic_variants, set(), putative_somatic_variant_edge_count_map
     
+    somatic_set = sorted(list(somatic_set))
     variant_color_map = collections.defaultdict(set)
     first_visit_paths = dfs_from_node(G, somatic_set[0])
     blue_pills = list(set(functools.reduce(lambda x, y: x+y, first_visit_paths)))
@@ -319,7 +320,7 @@ def filter_(opt):
 
     print('Success!')
     with open(f'{opt.output_dir}/{opt.id}/refined.somatic.mutations.tsv', 'w') as f:
-        f.write('ID\tvariant\Ref\tAlt\tResult\n')
+        f.write('ID\tvariant\tRef\tAlt\tResult\n')
         for line in output_result_list:
             f.write(line)
 
