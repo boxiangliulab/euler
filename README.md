@@ -15,28 +15,35 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
  Runs on `python 3.x`, requires `samtools`, `vcftools`, `bedtools`.
 
  ## Table of contents
-* [Overall Structure](#overall-structure)
-* [Installation Instructions](#installation-instructions)
-    * [Install from bioconda](#install-from-bioconda-recommended)
-    * [Install from pypi](#install-from-pypi)
-    * [Install from source code](#install-from-souce-code)
-* [Example Usage](#example-usage)
-    * [TL;DR](#tldr)
-    * [Sabre for scRNA-seq phasing](#sabre-for-scrna-seq-phasng)
-        * [BAM input](#bam-input)
-        * [VCF input](#vcf-input)
-        * [Output](#output)
-    * [Sabre for somatic variant filtering](#sabre-for-somatic-variation-filtering)
-    * [Sabre for somatic variant analysis](#sabre-for-somatic-variation-analysis)
-    * [Sabre for RNA-editing analysis](#sabre-for-rna-editing-analysis)
-* [Options](#options)
-    * [General Options](#general-options)
-    * [Accuracy & Sensitivity Related Options](#accuracy--sensitivity-related-options)
-    * [Output Options](#output-options)
-    * [Performance Related Options](#performance-related-options)
-    * [Monopogen Related Options](#monopogen-related-options)
-    * [Sabre-somatic Options](#sabre-somatic-options)
-* [Citation](#citation)
+- [Sabre - Single-cell reAd-Backed umi-awaRE phasing](#sabre---single-cell-read-backed-umi-aware-phasing)
+  - [What is Sabre](#what-is-sabre)
+  - [Table of contents](#table-of-contents)
+  - [Overall Structure](#overall-structure)
+  - [Installation Instructions](#installation-instructions)
+    - [Install from bioconda (Recommended)](#install-from-bioconda-recommended)
+    - [Install from pypi](#install-from-pypi)
+    - [Install from source code](#install-from-source-code)
+  - [Example Usage](#example-usage)
+    - [TL;DR](#tldr)
+    - [Sabre for scRNA-seq phasing](#sabre-for-scrna-seq-phasing)
+  - [**Example input**](#example-input)
+  - [**BAM input**](#bam-input)
+  - [**VCF input**](#vcf-input)
+  - [**Output**](#output)
+    - [Sabre-somatic filter: Sabre for somatic variation filtering](#sabre-somatic-filter-sabre-for-somatic-variation-filtering)
+    - [Sabre-somatic: Sabre for somatic variation analysis](#sabre-somatic-sabre-for-somatic-variation-analysis)
+    - [Sabre for RNA-editing analysis](#sabre-for-rna-editing-analysis)
+  - [Options](#options)
+    - [General Options](#general-options)
+    - [Accuracy \& Sensitivity Related Options](#accuracy--sensitivity-related-options)
+    - [Output Options](#output-options)
+    - [Performance Related Options](#performance-related-options)
+    - [Monopogen Related Options](#monopogen-related-options)
+    - [Sabre-somatic Options](#sabre-somatic-options)
+      - [`sabre-somatic run`](#sabre-somatic-run)
+      - [`sabre-somatic init`](#sabre-somatic-init)
+      - [`sabre-somatic filter`](#sabre-somatic-filter)
+  - [Citation](#citation)
 
 
  ## Overall Structure
@@ -227,7 +234,7 @@ If you would like to output the phased vcf file, you can specify `--output_vcf`.
 
 * **SG**: Sabre Local Genotype 
 * **SB**: Sabre Local Block
-* **SI**: Sabre Local Block Index (unique for each block)
+* **PS**: Phased Set Index (unique for each block)
 
 A typical output VCF file would be like:
 ```
@@ -259,7 +266,7 @@ To perform further somatic mutation analysis with `sabre-somatic`, the user shal
 
 For detailed output, and graphical demonstration of ALGs (allele linkage graph), specify `--verbose`. All the conflicted ALGs will be stored in `<output_dir>/<id>/conflict_graphs_graphml/*.graphml`. The resolved conflicted ALGs will be stored in `<output_dir>/<id>/resolved_conflict_graphs_graphml/*.graphml`. The `.graphml` file can be further visualized and analysed using [Gephi](https://gephi.org/).
 
- ### Sabre-somatic: Sabre for somatic variation filtering
+ ### Sabre-somatic filter: Sabre for somatic variation filtering
 ----
 Although Monopogen has provided filtering strategy for filtering somatic mutation callset, there are still quite many sequencing errors hidden in the callset. In `sabre-somatic`, we can utilize the phasing information to refine the somatic mutation callset, as sequencing errors may evenly distributed on both alleles.
 
@@ -291,12 +298,18 @@ chr1_1512167_somatic_C_G,sequencing_error
 
 To perform somatic variations analysis in the paper, you first need to specify `--output_conflict` when performing *Sabre* phasing.
 
+We recommend users preprocess the GTF file and build index for genes with 
+```bash
+$ sabre-somatic init --gtf <path-to-gtf>
+```
+
 To perform **in-phase** and **out-of-phase** detection, user shall first prepare a `gtf` file and run the following command.
 ```bash
 # For somatic variation analysis
 $ sabre-somatic run --id <id> --gtf <path-to-gtf> --vcf <path-to-vcf> --chr <chromosome>
 ```
 An example GTF file could be downloaded [here](https://www.gencodegenes.org/human/). 
+
 
 The script will generate two outputs: 
 * `chr*.in.phase.hits.annotated.csv`

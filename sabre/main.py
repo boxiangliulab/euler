@@ -288,7 +288,7 @@ def main():
         if os.path.exists('./SABRE.metrics.output'):
             os.remove('./SABRE.metrics.output')
         from time import gmtime, strftime
-        with Pool(opt.thread) as pool, Manager() as manager, open('SABRE.metrics.output', 'a') as f:
+        with Pool(opt.thread) as pool, Manager() as manager:
             args = []
             chromosome_status_dict = manager.dict()
             status_list = manager.list()
@@ -321,18 +321,19 @@ def main():
             p.kill()
         
         if opt.benchmark:
-            print('--------------------------------------------------------------')
-            print("Overall:\n#Haplotypes:\t\t {}\n#Correct Haplotypes:\t {}\n#Total variants:\t {}\n#Phased Variants:\t {}\n#Correct Variants:\t {}\nHaplotype accuracy:\t {:.4f}%\nVariants Precision:\t {:.4f}%\nVariants Recall:\t {:.4f}%\nAverage hap length:\t {:.4f}\nGenome Coverage Median:\t {:.4f}".format(total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, correct_hap/total_hap * 100, correct_variants/total_nodes * 100, total_nodes/phasable_variants *100, total_nodes/total_hap, statistics.median(genome_coverage))) 
-            print('--------------------------------------------------------------')
-            print("Pairwise Metric:\n#Phased pairs:\t\t {}\nCorrect pairs:\t\t {}\nTotal pairs:\t\t {}\nPairwise accuracy:\t {:.4f}%\nPairwise recall:\t {:.4f}%".format(predict_pairs, correct_pairs, total_possible_pairs, correct_pairs/predict_pairs* 100, correct_pairs/total_possible_pairs * 100)) 
-            
-            print('--------------------------------------------------------------', file=f)
-            print(strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=f)
-            print(opt, file=f)
-            print('--------------------------------------------------------------', file=f)
-            print("Overall:\n#Haplotypes:\t\t {}\n#Correct Haplotypes:\t {}\n#Total variants:\t {}\n#Phased Variants:\t {}\n#Correct Variants:\t {}\nHaplotype accuracy:\t {:.4f}%\nVariants Precision:\t {:.4f}%\nVariants Recall:\t {:.4f}%\nAverage hap length:\t {:.4f}\nGenome Coverage Median:\t {:.4f}".format(total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, correct_hap/total_hap * 100, correct_variants/total_nodes * 100, total_nodes/phasable_variants *100, total_nodes/total_hap, statistics.median(genome_coverage)), file=f) 
-            print('--------------------------------------------------------------', file=f)
-            print("Pairwise Metric:\nPhased pairs:\t\t {}\nCorrect pairs:\t\t {}\nTotal pairs:\t\t {}\nPairwise accuracy:\t {:.4f}%\nPairwise recall:\t {:.4f}%".format(predict_pairs, correct_pairs, total_possible_pairs, correct_pairs/predict_pairs* 100, correct_pairs/total_possible_pairs * 100), file=f)
+            with open('SABRE.metrics.output', 'a') as f:
+                print('--------------------------------------------------------------')
+                print("Overall:\n#Haplotypes:\t\t {}\n#Correct Haplotypes:\t {}\n#Total variants:\t {}\n#Phased Variants:\t {}\n#Correct Variants:\t {}\nHaplotype accuracy:\t {:.4f}%\nVariants Precision:\t {:.4f}%\nVariants Recall:\t {:.4f}%\nAverage hap length:\t {:.4f}\nGenome Coverage Median:\t {:.4f}".format(total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, correct_hap/total_hap * 100, correct_variants/total_nodes * 100, total_nodes/phasable_variants *100, total_nodes/total_hap, statistics.median(genome_coverage))) 
+                print('--------------------------------------------------------------')
+                print("Pairwise Metric:\n#Phased pairs:\t\t {}\nCorrect pairs:\t\t {}\nTotal pairs:\t\t {}\nPairwise accuracy:\t {:.4f}%\nPairwise recall:\t {:.4f}%".format(predict_pairs, correct_pairs, total_possible_pairs, correct_pairs/predict_pairs* 100, correct_pairs/total_possible_pairs * 100)) 
+                
+                print('--------------------------------------------------------------', file=f)
+                print(strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=f)
+                print(opt, file=f)
+                print('--------------------------------------------------------------', file=f)
+                print("Overall:\n#Haplotypes:\t\t {}\n#Correct Haplotypes:\t {}\n#Total variants:\t {}\n#Phased Variants:\t {}\n#Correct Variants:\t {}\nHaplotype accuracy:\t {:.4f}%\nVariants Precision:\t {:.4f}%\nVariants Recall:\t {:.4f}%\nAverage hap length:\t {:.4f}\nGenome Coverage Median:\t {:.4f}".format(total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, correct_hap/total_hap * 100, correct_variants/total_nodes * 100, total_nodes/phasable_variants *100, total_nodes/total_hap, statistics.median(genome_coverage)), file=f) 
+                print('--------------------------------------------------------------', file=f)
+                print("Pairwise Metric:\nPhased pairs:\t\t {}\nCorrect pairs:\t\t {}\nTotal pairs:\t\t {}\nPairwise accuracy:\t {:.4f}%\nPairwise recall:\t {:.4f}%".format(predict_pairs, correct_pairs, total_possible_pairs, correct_pairs/predict_pairs* 100, correct_pairs/total_possible_pairs * 100), file=f)
     else:
         sabre(opt, None)
 

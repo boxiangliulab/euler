@@ -41,8 +41,8 @@ class sabre_regex:
         self.umi_counter = 0
 
         if re_type == 'bulk':
-            self.find_bc = lambda x: x.strip().split('\t')[0]
-            self.find_umi = lambda x: x.strip().split('\t')[0]
+            self.find_bc = lambda x: x.strip().split('\t')[0].replace('.', '')
+            self.find_umi = lambda x: x.strip().split('\t')[0].replace('.', '')
         elif re_type == 'smartseq':
             self.find_bc = lambda x: 'pseudobc'
             self.find_umi = lambda x: 'pseudoumi'
