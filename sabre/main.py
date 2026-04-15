@@ -145,7 +145,8 @@ def main():
     parser.add_argument("--umi_re", help="The regular expression for extracting UMI in the BAM file.", type=str, default=None)
 
     # Accuracy & Sensitivity Related Options
-    parser.add_argument("--mapq_threshold", '--mapq', help="A filter on bam file. Reads have mapq lower than this threshold will be omitted.",default=60, type=int)
+    parser.add_argument("--mapq_threshold", '--mapq', '--mmq', help="A filter on bam file. Reads have mapq lower than this threshold will be omitted.",default=60, type=int)
+    parser.add_argument("--base_quality", '--base_qual', '--qual', '--mbq', help="Minimum base quality", type=int, default=10)
     parser.add_argument("--vcf_qual", help="The quality threshold on QUAL during processing vcf files.", default=30, type=int)
     parser.add_argument("--interval_threshold", help="Alleles with interval more than this threshold will be considered disconnected.", type=int, default=5000)
     parser.add_argument("--base_conflict_threshold", help="Base pairs that diffs less than this threshold will be ignored.", type=float, default=0.05)
@@ -156,6 +157,7 @@ def main():
     parser.add_argument("--as_quality", help="A filter on alignment score in BAM files", default=0.05, type=float)
     parser.add_argument("--edge_threshold", help="A filter on low confidence edges on graph", default=10, type=int)
     parser.add_argument("--layers", help="Number of GNN Layer", type=int, default=1)
+    
 
     # Output Options
     parser.add_argument("--verbose", help="Determine whether output conflicted graphs", action='store_true')

@@ -136,7 +136,7 @@ def get_base_pair_by_var_pos(opt, read, var_pos):
     '''
     Given a variant position on genome, return the corresponding base pair on the read.
     '''
-    global QUAL_THRESHOLD
+    QUAL_THRESHOLD = opt.qual
     bp_qual_map = collections.defaultdict(list)
     for read, quals, (left, right) in zip(read.read_seqs, read.read_quals, read.read_spans):
         if var_pos <= right and var_pos >= left:
@@ -389,7 +389,7 @@ def generate_reads(opt, output_sam_paths):
     alignment_scores = []
     bamline_cnt = 0
     global QUAL_THRESHOLD, ALIGNMENT_FILTER
-    QUAL_THRESHOLD = 10
+    QUAL_THRESHOLD = opt.qual
 
     find_bc_umi = sabre_regex(opt.input_type, opt.bc_re, opt.umi_re)
 
