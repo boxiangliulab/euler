@@ -43,7 +43,7 @@ def create_graph(opt, allele_linkage_map, var_barcode_map, allele_linkage_read_c
         if abs(int(alle_1_pos) - int(alle_2_pos)) > opt.interval_threshold: continue
         barcode_weight_map = var_barcode_map[(alle_1, alle_2)]
         barcode_link_weights += list(barcode_weight_map.values()) 
-        G.add_edges_from([(alle_1, alle_2, {'prime_weight': weight, 'raw_read_count': allele_linkage_read_count_map[(alle_1, alle_2)], 'barcodes':barcode_weight_map})])
+        G.add_edges_from([(alle_1, alle_2, {'prime_weight' if opt.layers > 0 else 'weight': weight, 'raw_read_count': allele_linkage_read_count_map[(alle_1, alle_2)], 'barcodes':barcode_weight_map})])
     
     for node in G.nodes:
         G.nodes[node]['allele_read_count'] = 0
