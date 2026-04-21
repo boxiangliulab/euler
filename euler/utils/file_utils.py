@@ -18,7 +18,7 @@ ALIGNMENT_FILTER = 0
 Variant = namedtuple('Variant', ["unique_id", "end", "genotype_string", "is_phased"])
 Bamline = namedtuple('Bamline', ['col_pos', 'col_seq', 'col_qual', 'col_cigar', 'alignment_score'])
 
-class sabre_regex:
+class euler_regex:
     def __init__(self, re_type, bc_re, umi_re):
         
         self.re_type = re_type
@@ -290,7 +290,7 @@ def generate_variants(opt, processed_vcf_path):
     somatic_variants_for_one_two_hit_ids = set()
     if opt.mono is not None:
         with open(opt.mono) as f, open(f'./{opt.output_dir}/{opt.id}/chr{opt.chr}.mono.filtering.csv', 'w') as g:
-            g.write(f'chr\tpos\tref\talt\tsvm\tld\tbaf\tdepth_ref\tdepth_alt\tbeta\tvcf_classification\tsabre_classification\t\n')
+            g.write(f'chr\tpos\tref\talt\tsvm\tld\tbaf\tdepth_ref\tdepth_alt\tbeta\tvcf_classification\teuler_classification\t\n')
             for line in f:
                 if line.startswith('chr,pos'): continue
                 
@@ -389,9 +389,9 @@ def generate_reads(opt, output_sam_paths):
     alignment_scores = []
     bamline_cnt = 0
     global QUAL_THRESHOLD, ALIGNMENT_FILTER
-    QUAL_THRESHOLD = opt.qual
+    QUAL_THRESHOLD = opt.base_quality
 
-    find_bc_umi = sabre_regex(opt.input_type, opt.bc_re, opt.umi_re)
+    find_bc_umi = euler_regex(opt.input_type, opt.bc_re, opt.umi_re)
 
     for output_sam_path, name in output_sam_paths:
         with open(output_sam_path) as sam_file:

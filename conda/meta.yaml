@@ -1,5 +1,5 @@
 package:
-  name: sabre
+  name: euler
   version: "1.0.0"
 
 source:
@@ -27,4 +27,4 @@ requirements:
 about:
   home: https://github.com/boxiangliulab/Faser-scRNA
   license: MIT
-  summary: Sabre - Single-cell reAd-Backed umi-awaRE phasing
+  summary: euler - Single-cell reAd-Backed umi-awaRE phasing

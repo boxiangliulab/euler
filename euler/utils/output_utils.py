@@ -79,7 +79,7 @@ def de_duplicate(G:nx.Graph, alleles_list:list[list[str]], flag, variant_allele_
 
 def report_phasing_result(opt, nonconflicted_nodes, resolved_conflicted_nodes, vid_var_map, variant_allele_map, node_confidence):
     '''
-    Report the phasing result of sabre.
+    Report the phasing result of euler.
     Nonconflicted nodes and predicted conflicted nodes are reported separately.
     '''
      
@@ -107,7 +107,7 @@ def report_phasing_result(opt, nonconflicted_nodes, resolved_conflicted_nodes, v
     variant_hap_map = {}
     variant_phase_map = {}
 
-    with open('{}/{}/{}.output.SABRE'.format(opt.output_dir, opt.id, opt.chr), 'w') as g:
+    with open('{}/{}/{}.output.euler'.format(opt.output_dir, opt.id, opt.chr), 'w') as g:
 
         output_stream =  {}
 
@@ -332,9 +332,9 @@ def write_phasing_result_to_vcf(opt, variant_hap_map, variant_phase_map):
                 format_text.append(line)
                 output_file.write(line)
             elif line.startswith("#CHROM"):
-                if "##FORMAT=<ID=SG," not in format_text: output_file.write("##FORMAT=<ID=SG,Number=1,Type=String,Description=\"Sabre Local Genotype\">\n");
-                if "##FORMAT=<ID=SB," not in format_text: output_file.write("##FORMAT=<ID=SB,Number=1,Type=String,Description=\"Sabre Local Block\">\n");
-                if "##FORMAT=<ID=PS," not in format_text: output_file.write("##FORMAT=<ID=PS,Number=1,Type=String,Description=\"Sabre Local Block Index (unique for each block)\">\n")
+                if "##FORMAT=<ID=SG," not in format_text: output_file.write("##FORMAT=<ID=SG,Number=1,Type=String,Description=\"euler Local Genotype\">\n");
+                if "##FORMAT=<ID=SB," not in format_text: output_file.write("##FORMAT=<ID=SB,Number=1,Type=String,Description=\"euler Local Block\">\n");
+                if "##FORMAT=<ID=PS," not in format_text: output_file.write("##FORMAT=<ID=PS,Number=1,Type=String,Description=\"euler Local Block Index (unique for each block)\">\n")
                 output_file.write(line)
             elif line.startswith('#'):
                 output_file.write(line)

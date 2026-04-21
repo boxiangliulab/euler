@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='sabre',
+    name='euler',
     version='1.0.0',
     packages=find_packages(),
     install_requires=[
@@ -13,13 +13,13 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'sabre=sabre.main:main',
-            'sabre-somatic=sabre.analysis.sabre_somatic:main',
+            'euler=euler.main:main',
+            'euler-somatic=euler.analysis.euler_somatic:main',
         ],
     },
     author='Laurentiusia',
     author_email='e1124923@u.nus.edu',
-    description='Sabre - Single-cell reAd-Backed umi-awaRE phasing',
+    description='euler - cEll-resolved Umi-Linked haplotypE Reconstruction',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/boxiangliulab/Faser-scRNA',

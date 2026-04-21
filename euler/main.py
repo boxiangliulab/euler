@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from sabre.utils import file_utils, algo_utils, graph_utils, output_utils
+from euler.utils import file_utils, algo_utils, graph_utils, output_utils
 import argparse
 from rich import print as print___
 import random
@@ -21,7 +21,7 @@ def print_to_file(string):
 
 chromosome_status_dict = {}
 
-def sabre(opt, status_dict, return_list = None, status_list=None):
+def euler(opt, status_dict, return_list = None, status_list=None):
 
 
     if opt.total_chr != None:
@@ -35,7 +35,7 @@ def sabre(opt, status_dict, return_list = None, status_list=None):
     print__('''[purple]
         +---------------------------------------+
         |                                       |
-        |               [bold italic green]:dna:sabre:dna:[/bold italic green]               |
+        |               [bold italic green]:dna:euler:dna:[/bold italic green]               |
         |                                       |
         +---------------------------------------+
         [/purple]''')
@@ -124,7 +124,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     # General Options
-    parser.add_argument("--id", help="A unique run ID string (e.g. sample345)", default='sabre_test', required=True)
+    parser.add_argument("--id", help="A unique run ID string (e.g. sample345)", default='euler_test', required=True)
     parser.add_argument("--bam", help="Indexed BAMs (comma separated) containing aligned reads", default='')
     parser.add_argument("--bam_list", help="A list of input BAM files", required = False, default=None)
     parser.add_argument("--vcf", help="VCF for the sample, must be gzipped and tabix indexed.", default='')
@@ -248,7 +248,7 @@ def main():
             raise RuntimeError('BAM file not exists')
         
         if not os.path.exists('{}.bai'.format(bam)):
-            print___('[bold red blink]❌ ERROR: [/bold red blink]BAM file {} not indexed. Sabre requires each input BAM file indexed by samtools!'.format(bam))
+            print___('[bold red blink]❌ ERROR: [/bold red blink]BAM file {} not indexed. euler requires each input BAM file indexed by samtools!'.format(bam))
             raise KeyError('BAM file not indexed')
 
     if not opt.bam == '':
@@ -268,7 +268,7 @@ def main():
                     print___('[bold red blink]❌ ERROR: [/bold red blink]BAM file {} does not exist. Please check input arguments'.format(bamfile))
                     raise e
                 except KeyError as e:
-                    print___('[bold red blink]❌ ERROR: [/bold red blink]BAM file {} not indexed. Sabre needs each input BAM file indexed by samtools!'.format(bamfile))
+                    print___('[bold red blink]❌ ERROR: [/bold red blink]BAM file {} not indexed. euler needs each input BAM file indexed by samtools!'.format(bamfile))
                     raise e
     
     if not os.path.exists(opt.vcf):
@@ -276,7 +276,7 @@ def main():
         raise RuntimeError('VCF file not exists!')
     
     if not os.path.exists('{}.tbi'.format(opt.vcf)):
-        print___('[bold red blink]❌ ERROR: [/bold red blink]VCF file {} not indexed. Sabre requires input VCF file index by tabix'.format(opt.vcf))
+        print___('[bold red blink]❌ ERROR: [/bold red blink]VCF file {} not indexed. euler requires input VCF file index by tabix'.format(opt.vcf))
         raise RuntimeError('VCF file not indexed!')
     
     if opt.mono is not None and not os.path.exists(opt.mono):
@@ -287,8 +287,8 @@ def main():
         from multiprocessing import Pool, Process, Manager
         import copy
 
-        if os.path.exists('./SABRE.metrics.output'):
-            os.remove('./SABRE.metrics.output')
+        if os.path.exists('./euler.metrics.output'):
+            os.remove('./euler.metrics.output')
         from time import gmtime, strftime
         with Pool(opt.thread) as pool, Manager() as manager:
             args = []
@@ -308,7 +308,7 @@ def main():
             p = Process(target=watcher, args=(chromosome_status_dict, status_list))
             p.daemon = True
             p.start()
-            pool.starmap(sabre, args)
+            pool.starmap(euler, args)
             total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, genome_coverage, predict_pairs, correct_pairs, total_possible_pairs = 0, 0, 0, 0, 0, [], 0, 0, 0
             for chr_, list_ in return_list.items():
                 total_hap += list_[0]
@@ -323,7 +323,7 @@ def main():
             p.kill()
         
         if opt.benchmark:
-            with open('SABRE.metrics.output', 'a') as f:
+            with open('euler.metrics.output', 'a') as f:
                 print('--------------------------------------------------------------')
                 print("Overall:\n#Haplotypes:\t\t {}\n#Correct Haplotypes:\t {}\n#Total variants:\t {}\n#Phased Variants:\t {}\n#Correct Variants:\t {}\nHaplotype accuracy:\t {:.4f}%\nVariants Precision:\t {:.4f}%\nVariants Recall:\t {:.4f}%\nAverage hap length:\t {:.4f}\nGenome Coverage Median:\t {:.4f}".format(total_hap, correct_hap,phasable_variants, total_nodes, correct_variants, correct_hap/total_hap * 100, correct_variants/total_nodes * 100, total_nodes/phasable_variants *100, total_nodes/total_hap, statistics.median(genome_coverage))) 
                 print('--------------------------------------------------------------')
@@ -337,7 +337,7 @@ def main():
                 print('--------------------------------------------------------------', file=f)
                 print("Pairwise Metric:\nPhased pairs:\t\t {}\nCorrect pairs:\t\t {}\nTotal pairs:\t\t {}\nPairwise accuracy:\t {:.4f}%\nPairwise recall:\t {:.4f}%".format(predict_pairs, correct_pairs, total_possible_pairs, correct_pairs/predict_pairs* 100, correct_pairs/total_possible_pairs * 100), file=f)
     else:
-        sabre(opt, None)
+        euler(opt, None)
 
 
 if __name__ == '__main__':

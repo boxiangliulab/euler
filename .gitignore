@@ -17,6 +17,6 @@ output
 *.bak
 metric
 build/*
-sabre.egg-info/*
+euler.egg-info/*
 dist/
 .history/

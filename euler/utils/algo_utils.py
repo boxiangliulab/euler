@@ -1,4 +1,4 @@
-import sabre.utils.file_utils as file_utils
+import euler.utils.file_utils as file_utils
 import collections
 from rich import print
 
@@ -65,7 +65,7 @@ def read_var_map(opt, reads, variants, somatic_variants):
             total_match += right_end - left_end
             taken_read_count += 1
             mapped_variants += variants[left_end:right_end]
-
+        
         alleles = []
         for var in mapped_variants:
             # get the base pair of given read
@@ -88,6 +88,13 @@ def read_var_map(opt, reads, variants, somatic_variants):
         # but the second will not discard any read information
         allele_list = sorted(list(set(alleles)))
         _, barcode = read.umi_barcode.split('.')
+
+        # if len(allele_list) > 0:
+        #     with open(f'./{opt.output_dir}/{opt.id}/{opt.chr}.read.variant.map', 'a') as f:
+        #         f.write(f'{read.umi_barcode}:')
+        #         for allele, _, quals in allele_list:
+        #             f.write(f'{allele},')
+        #         f.write('\n')
 
         for allele, _, quals in allele_list:
             allele_read_count[allele] += 1

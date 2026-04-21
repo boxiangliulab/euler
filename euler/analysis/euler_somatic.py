@@ -349,27 +349,27 @@ def init(opt):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='sabre-somatic')
+    parser = argparse.ArgumentParser(prog='euler-somatic')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     # 子命令 init
-    parser_init = subparsers.add_parser('init', help='Initialize sabre-somatic and generate gtf index file.')
+    parser_init = subparsers.add_parser('init', help='Initialize euler-somatic and generate gtf index file.')
     parser_init.add_argument('--gtf', help='Input GTF file.', required=True)
     parser_init.set_defaults(func=init)
 
     # 子命令 init
     parser_filter = subparsers.add_parser('filter', help='Filter the somatic mutation callset with phasing information.')
     parser_filter.add_argument("--id", help="Input ID", required=True)
-    parser_filter.add_argument("--output_dir", help="Path to output directory, should be the same as sabre --output_dir. Default ./output", required=False, default='./output')
+    parser_filter.add_argument("--output_dir", help="Path to output directory, should be the same as euler --output_dir. Default ./output", required=False, default='./output')
     parser_filter.set_defaults(func=filter_)
 
     # 子命令 run
-    parser_run = subparsers.add_parser('run', help='Run sabre-somatic analysis')
+    parser_run = subparsers.add_parser('run', help='Run euler-somatic analysis')
     parser_run.add_argument("--id", help="Input ID", required=True)
     parser_run.add_argument("--vcf", help="The germline VCF file of `id`", required=True)
-    parser_run.add_argument("--chr", help="Indicate the chromosome, on which the sabre-somatic will perform one-two hit analysis")
-    parser_run.add_argument("--output_dir", help="Path to output directory, should be the same as sabre --output_dir. Default ./output", required=False, default='./output')
-    parser_run.add_argument("--gtf", help="Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because sabre-somatic will have to depress the .gtf.gz file everytime you input a compressed gtf file.", required=True)
+    parser_run.add_argument("--chr", help="Indicate the chromosome, on which the euler-somatic will perform one-two hit analysis")
+    parser_run.add_argument("--output_dir", help="Path to output directory, should be the same as euler --output_dir. Default ./output", required=False, default='./output')
+    parser_run.add_argument("--gtf", help="Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because euler-somatic will have to depress the .gtf.gz file everytime you input a compressed gtf file.", required=True)
     parser_run.add_argument("--cells", help="Threshold on number of supporting cells.", default=1, type=int)
     parser_run.add_argument("--reads", help="Threshold on number of supporting reads", default=5, type=int)
     parser_run.set_defaults(func=run)

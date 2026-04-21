@@ -1,22 +1,22 @@
-![alt Sabre logo](./doc/sabre.logo.png)
+![alt euler logo](./doc/euler.logo.png)
 
-# Sabre - Single-cell reAd-Backed umi-awaRE phasing
+# euler - Single-cell reAd-Backed umi-awaRE phasing
 
 
-## What is Sabre
+## What is euler
 
-Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X chromosome inactivation, RNA editing, mitotic recombination, and somatic mutations. The availability and exponential growth of scRNA-seq data represent a vastly untapped resource for read-backed phasing in single cells. Unlike bulk RNA-seq, scRNA-seq’s read structure, high PCR duplication, and low sequencing depth present challenges. We introduce Sabre, a method that accurately infers long-range haplotypes by leveraging the read structure and PCR duplicates unique to scRNA-seq data. Sabre can be utilized in these following three scenarios: 
+Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X chromosome inactivation, RNA editing, mitotic recombination, and somatic mutations. The availability and exponential growth of scRNA-seq data represent a vastly untapped resource for read-backed phasing in single cells. Unlike bulk RNA-seq, scRNA-seq’s read structure, high PCR duplication, and low sequencing depth present challenges. We introduce euler, a method that accurately infers long-range haplotypes by leveraging the read structure and PCR duplicates unique to scRNA-seq data. euler can be utilized in these following three scenarios: 
  * **Germline variants**, where all cells share the same haplotypes; 
  * **Somatic variants**, where haplotypes are shared by mutant cells and their progenies; 
- * **RNA editing variants**, where haplotypes are unique to each cell. Sabre uses ultrafast graph algorithms and is scalable to atlas-scale data with 1M single cells.
+ * **RNA editing variants**, where haplotypes are unique to each cell. euler uses ultrafast graph algorithms and is scalable to atlas-scale data with 1M single cells.
 
  Developed and maintained by [Laurentius](https://github.com/GhostAnderson).
 
  Runs on `python 3.x`, requires `samtools`, `vcftools`, `bedtools`.
 
  ## Table of contents
-- [Sabre - Single-cell reAd-Backed umi-awaRE phasing](#sabre---single-cell-read-backed-umi-aware-phasing)
-  - [What is Sabre](#what-is-sabre)
+- [euler - Single-cell reAd-Backed umi-awaRE phasing](#euler---single-cell-read-backed-umi-aware-phasing)
+  - [What is euler](#what-is-euler)
   - [Table of contents](#table-of-contents)
   - [Overall Structure](#overall-structure)
   - [Installation Instructions](#installation-instructions)
@@ -25,24 +25,24 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
     - [Install from source code](#install-from-source-code)
   - [Example Usage](#example-usage)
     - [TL;DR](#tldr)
-    - [Sabre for scRNA-seq phasing](#sabre-for-scrna-seq-phasing)
+    - [euler for scRNA-seq phasing](#euler-for-scrna-seq-phasing)
   - [**Example input**](#example-input)
   - [**BAM input**](#bam-input)
   - [**VCF input**](#vcf-input)
   - [**Output**](#output)
-    - [Sabre-somatic filter: Sabre for somatic variation filtering](#sabre-somatic-filter-sabre-for-somatic-variation-filtering)
-    - [Sabre-somatic: Sabre for somatic variation analysis](#sabre-somatic-sabre-for-somatic-variation-analysis)
-    - [Sabre for RNA-editing analysis](#sabre-for-rna-editing-analysis)
+    - [euler-somatic filter: euler for somatic variation filtering](#euler-somatic-filter-euler-for-somatic-variation-filtering)
+    - [euler-somatic: euler for somatic variation analysis](#euler-somatic-euler-for-somatic-variation-analysis)
+    - [euler for RNA-editing analysis](#euler-for-rna-editing-analysis)
   - [Options](#options)
     - [General Options](#general-options)
     - [Accuracy \& Sensitivity Related Options](#accuracy--sensitivity-related-options)
     - [Output Options](#output-options)
     - [Performance Related Options](#performance-related-options)
     - [Monopogen Related Options](#monopogen-related-options)
-    - [Sabre-somatic Options](#sabre-somatic-options)
-      - [`sabre-somatic run`](#sabre-somatic-run)
-      - [`sabre-somatic init`](#sabre-somatic-init)
-      - [`sabre-somatic filter`](#sabre-somatic-filter)
+    - [euler-somatic Options](#euler-somatic-options)
+      - [`euler-somatic run`](#euler-somatic-run)
+      - [`euler-somatic init`](#euler-somatic-init)
+      - [`euler-somatic filter`](#euler-somatic-filter)
   - [Citation](#citation)
 
 
@@ -56,22 +56,22 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
  ## Installation Instructions
 
  ### Install from bioconda (Recommended)
- Using anaconda can assure all the dependencies installed correctly. Sabre can be installed from the `bioconda` channel.
+ Using anaconda can assure all the dependencies installed correctly. euler can be installed from the `bioconda` channel.
  ```bash
- $ conda install sabre -c bioconda
+ $ conda install euler -c bioconda
  ```
 
  ### Install from pypi
- Installing sabre from pypi requires `samtools`, `tabix`, `bcftools` preinstalled by user.
+ Installing euler from pypi requires `samtools`, `tabix`, `bcftools` preinstalled by user.
  ```bash
- $ pip install sabre
+ $ pip install euler
  ```
 
  ### Install from source code
  The requirement is the same as installing from pypi.
  ```bash
- $ git clone https://github.com/boxiangliulab/sabre.git
- $ cd sabre
+ $ git clone https://github.com/boxiangliulab/euler.git
+ $ cd euler
  $ pip install .
  ```
 
@@ -85,13 +85,13 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
 
  ```bash
  # On all Chromosomes
-$ sabre --id <ID> --bam <path-to-bam> --vcf <path-to-vcf> --sample <SAMPLE_NAME> --total_chr <number-of-chrs-without-chrX> --input_type <cellranger/umitools/star/re> 
+$ euler --id <ID> --bam <path-to-bam> --vcf <path-to-vcf> --sample <SAMPLE_NAME> --total_chr <number-of-chrs-without-chrX> --input_type <cellranger/umitools/star/re> 
 
  # On one Chromosome
-$ sabre --id <ID> --bam <path-to-bam> --vcf <path-to-vcf> --sample <SAMPLE_NAME> --chr <desired_chr> --input_type <cellranger/umitools/star/re> 
+$ euler --id <ID> --bam <path-to-bam> --vcf <path-to-vcf> --sample <SAMPLE_NAME> --chr <desired_chr> --input_type <cellranger/umitools/star/re> 
  ```
 
- ### Sabre for scRNA-seq phasing
+ ### euler for scRNA-seq phasing
 ----
 
 Requires a VCF and BAM, produces a HAPCUT-style output and a phased VCF with computed haplotype phases and result files containing haplotype details, graph connectivities, and read counts. 
@@ -102,17 +102,17 @@ We highly recommend you to check your environment setup using the provided examp
 
 Run command
 ```Bash
-$ cd /path/to/sabre
-$ sabre --id test --bam ./example/bam/NA12878.chr5.example.bam --vcf ./example/vcf/NA12878.example.vcf.gz --sample NA12878 --chr chr5 --input_type umitools 
+$ cd /path/to/euler
+$ euler --id test --bam ./example/bam/NA12878.chr5.example.bam --vcf ./example/vcf/NA12878.example.vcf.gz --sample NA12878 --chr chr5 --input_type umitools 
 ```
 If everything was set up right, this command should run with out any error.
 
-For more example inputs and example inputs for `sabre-somatic`, refer to [here](https://drive.google.com/drive/folders/1FRKllOr7AfEYlQeieH-rj6tgVzMQ_2q1?usp=sharing). After downloaded the example input files, try out the given bash scripts to validate the installation of `sabre`.
+For more example inputs and example inputs for `euler-somatic`, refer to [here](https://drive.google.com/drive/folders/1FRKllOr7AfEYlQeieH-rj6tgVzMQ_2q1?usp=sharing). After downloaded the example input files, try out the given bash scripts to validate the installation of `euler`.
 
 **BAM input**
 ----
  
- Sabre supports BAM files generated by various single-cell alignment/analysing tools e.g. cellranger, star-solo, umitools etc, and multiple filtering parameters on BAM file including alignment score and MAPQ.
+ euler supports BAM files generated by various single-cell alignment/analysing tools e.g. cellranger, star-solo, umitools etc, and multiple filtering parameters on BAM file including alignment score and MAPQ.
 
  Apart from inputing single BAM file using `--bam <path-to-bam>`, we provided a way to input multiple BAM files at once. This will be helpful when mixing different reads from tissures of a common individual, e.g. normal cells and tumor cells.
 
@@ -167,7 +167,7 @@ $ bcftools view tmp.bcf -o tmp.vcf
 $ bgzip -c tmp.vcf > <your-desired-name>.vcf.gz
 $ tabix -p vcf <your-desired-name>.vcf.gz
 ```
-You can perform further filtering on this VCF file or simply indicate `--raw_vcf` and `--vcf_qual <threshold-on-vcf-QUAL>` when using Sabre.
+You can perform further filtering on this VCF file or simply indicate `--raw_vcf` and `--vcf_qual <threshold-on-vcf-QUAL>` when using euler.
 
 
 Note that `samtools` and `bcftools` are not optimized for single-cell data. Consider using [Monopogen](https://github.com/KChen-lab/Monopogen), which designed for scRNA-seq data. A typical output of Monopogen is like:
@@ -205,22 +205,22 @@ chr1,634012,T,C,2402,2388,14,0.173676949268894,NA,NA,NA,0.00582605076987099
 chr1,634133,C,T,431,401,30,0.25421399379009,NA,NA,NA,0.0694444444444444
 chr1,958944,C,T,80,79,1,0.235030370462956,NA,NA,NA,0.0123456790123457
 ```
-To use Monopogen's output as `sabre`'s input, one should indicate `--mono`. An example command is 
+To use Monopogen's output as `euler`'s input, one should indicate `--mono`. An example command is 
 ```bash
 $ tabix -p vcf <path-to-monopogen-output>/germline/chr1.gp.vcf.gz
-$ sabre --id <ID> --bam <path-to-bam> --vcf <path-to-monopogen-output>/germline/<chr>.gp.vcf.gz --mono <path-to-monopogen-output>/somatic/<chr>.putativeSNVs.csv --sample <SAMPLE_NAME> --chr <desired_chr> --input_type <cellranger/umitools/star/re> 
+$ euler --id <ID> --bam <path-to-bam> --vcf <path-to-monopogen-output>/germline/<chr>.gp.vcf.gz --mono <path-to-monopogen-output>/somatic/<chr>.putativeSNVs.csv --sample <SAMPLE_NAME> --chr <desired_chr> --input_type <cellranger/umitools/star/re> 
 ```
-If `--mono` is specified, somatic variants and germline variants will be annotated both in `.SABRE` output and output `.vcf` files.
+If `--mono` is specified, somatic variants and germline variants will be annotated both in `.euler` output and output `.vcf` files.
 
-Somatic variants called by Monopogen is filtered in Sabre. Sabre performs filtering on `Depth_ref` with `--mono_ref`, `Depth_cal` with `--mono_alt`, `SVM_pos_score` with `--mono_svm`, `LDrefine_merged_score` with `--mono_ld` and `BAF_alt` with `--mono_baf_u` and `--mono_baf_l`.
+Somatic variants called by Monopogen is filtered in euler. euler performs filtering on `Depth_ref` with `--mono_ref`, `Depth_cal` with `--mono_alt`, `SVM_pos_score` with `--mono_svm`, `LDrefine_merged_score` with `--mono_ld` and `BAF_alt` with `--mono_baf_u` and `--mono_baf_l`.
 
 Sometimes, the input chromosome may contain the **"_"** character, e.g. mm10_1. To prevent errors, you need to specify `--sep <any-character-you-like-except-from-_-and-:>`. And in other circumstances, the naming style of given BAM file and VCF file may be different. You can use `--chr_vcf <chr-on-VCF-file>` to specify the desired chromosome in the VCF file.
 
-Sabre assumes diploid for input, thus if there are more than one ALT for a input variant, the default parameters would lead to misleading results. If you consider this as unacceptable, or difference between ALT alleles are important in your study, set `--non_binary_variant`. Therefore the Sabre is provided ability to distinguish between different ALT.
+euler assumes diploid for input, thus if there are more than one ALT for a input variant, the default parameters would lead to misleading results. If you consider this as unacceptable, or difference between ALT alleles are important in your study, set `--non_binary_variant`. Therefore the euler is provided ability to distinguish between different ALT.
 
 **Output**
 ----
-Typical output consists of a single `chr*.SABRE` file. The format of the `chr*.SABRE` is in consistent with HAPCUT and HapTreeX. A typical block of the `chr*.SABRE` is presented as follow
+Typical output consists of a single `chr*.euler` file. The format of the `chr*.euler` is in consistent with HAPCUT and HapTreeX. A typical block of the `chr*.euler` is presented as follow
 ```csv
 ...
 BLOCK: offset: 249337 len: 2 phased: 2 SPAN: 75 correct: 1
@@ -232,8 +232,8 @@ From left to right, each corresponding column represents umique_id, allele on on
 
 If you would like to output the phased vcf file, you can specify `--output_vcf`. For the output vcf, we added the following fields to phased variants.
 
-* **SG**: Sabre Local Genotype 
-* **SB**: Sabre Local Block
+* **SG**: euler Local Genotype 
+* **SB**: euler Local Block
 * **PS**: Phased Set Index (unique for each block)
 
 A typical output VCF file would be like:
@@ -262,18 +262,18 @@ CTCAGAAAGGAATTAC        chr15_22690417_._A_G,chr15_22690362_._A_G       01      
 ```
 where `support` represents the number of mRNAs supporting this pair of allele in this specified cell barcode. `oppo_support` represents the number of mRNAs in conflict with this pair in this cell barcode. `total_covered_barcodes` represents the number of cells that expressed this two variants. `global_oppo_support` represents the number of mRNAs in conflict with this pair in all cells.
 
-To perform further somatic mutation analysis with `sabre-somatic`, the user shall indicate `--output_conflict` when calling `sabre`. The output conflict graph is stored in `<output_dir>/<id>/conflicted_graphs/`. Each `.pickle` file contains a `networkx.Graph()` object, user can easily load the graph using `pickle.load()` and perform custom analysis.
+To perform further somatic mutation analysis with `euler-somatic`, the user shall indicate `--output_conflict` when calling `euler`. The output conflict graph is stored in `<output_dir>/<id>/conflicted_graphs/`. Each `.pickle` file contains a `networkx.Graph()` object, user can easily load the graph using `pickle.load()` and perform custom analysis.
 
 For detailed output, and graphical demonstration of ALGs (allele linkage graph), specify `--verbose`. All the conflicted ALGs will be stored in `<output_dir>/<id>/conflict_graphs_graphml/*.graphml`. The resolved conflicted ALGs will be stored in `<output_dir>/<id>/resolved_conflict_graphs_graphml/*.graphml`. The `.graphml` file can be further visualized and analysed using [Gephi](https://gephi.org/).
 
- ### Sabre-somatic filter: Sabre for somatic variation filtering
+ ### euler-somatic filter: euler for somatic variation filtering
 ----
-Although Monopogen has provided filtering strategy for filtering somatic mutation callset, there are still quite many sequencing errors hidden in the callset. In `sabre-somatic`, we can utilize the phasing information to refine the somatic mutation callset, as sequencing errors may evenly distributed on both alleles.
+Although Monopogen has provided filtering strategy for filtering somatic mutation callset, there are still quite many sequencing errors hidden in the callset. In `euler-somatic`, we can utilize the phasing information to refine the somatic mutation callset, as sequencing errors may evenly distributed on both alleles.
 
-To perform somatic mutation filtering, call `sabre-somatic filter` and indicate the `--id` and `--output_dir` if the output directory is not `./output`. A minimal example is
+To perform somatic mutation filtering, call `euler-somatic filter` and indicate the `--id` and `--output_dir` if the output directory is not `./output`. A minimal example is
 
 ```bash
-$ sabre-somatic filter --id <id>
+$ euler-somatic filter --id <id>
 ```
 
 This function will generate one output:
@@ -293,20 +293,20 @@ chr1_198658531_somatic_T_C,sequencing_error
 chr1_1512167_somatic_C_G,sequencing_error
 ```
 
- ### Sabre-somatic: Sabre for somatic variation analysis
+ ### euler-somatic: euler for somatic variation analysis
 ----
 
-To perform somatic variations analysis in the paper, you first need to specify `--output_conflict` when performing *Sabre* phasing.
+To perform somatic variations analysis in the paper, you first need to specify `--output_conflict` when performing *euler* phasing.
 
 We recommend users preprocess the GTF file and build index for genes with 
 ```bash
-$ sabre-somatic init --gtf <path-to-gtf>
+$ euler-somatic init --gtf <path-to-gtf>
 ```
 
 To perform **in-phase** and **out-of-phase** detection, user shall first prepare a `gtf` file and run the following command.
 ```bash
 # For somatic variation analysis
-$ sabre-somatic run --id <id> --gtf <path-to-gtf> --vcf <path-to-vcf> --chr <chromosome>
+$ euler-somatic run --id <id> --gtf <path-to-gtf> --vcf <path-to-vcf> --chr <chromosome>
 ```
 An example GTF file could be downloaded [here](https://www.gencodegenes.org/human/). 
 
@@ -329,12 +329,12 @@ where each line represents a in/out-of-phase variant pair. `germline` column rep
 
 Notablly, all the germline variants and somatic variants are not filtered by CADD score nor missense/synonymous. User may perform further filtering theirselves.
 
- ### Sabre for RNA-editing analysis
+ ### euler for RNA-editing analysis
 ----
 
 To perform somatic variations analysis in the paper, you first need to specify `--allele_linkage`. 
 
-If `--allele_linkage` is specified, sabre will output variant pairs and its configuation in each cell barcode in `<output_dir>/<id>/cell_allele_connections_<chr>.txt`. A example is shown below
+If `--allele_linkage` is specified, euler will output variant pairs and its configuation in each cell barcode in `<output_dir>/<id>/cell_allele_connections_<chr>.txt`. A example is shown below
 
 ```tsv
 barcode var geno    support
@@ -366,9 +366,9 @@ alt_level = d / c + d
 ```
 Furthermore, we can generalize this into a certain cohort by group by the same `var` among all samples and analyze cell type-specific RNA-editing by annotating each barcode with its cell type and group by the annotated cell type. However, as data format and analysis aim may vary drastically for RNA-Editing, we could not provide a standard and generalized analysis pipeline for edQTL analysis. 
 
-The R script used to reproduce the RNA-Editing analysis in the sabre paper is in `example/sabre_rna_editing.R` for reference and further modifications.
+The R script used to reproduce the RNA-Editing analysis in the euler paper is in `example/euler_rna_editing.R` for reference and further modifications.
 
-We welcome any enquiries on usage of sabre on single-cell edQTL analysis!
+We welcome any enquiries on usage of euler on single-cell edQTL analysis!
 
  ## Options
 
@@ -388,7 +388,7 @@ We welcome any enquiries on usage of sabre on single-cell edQTL analysis!
 * `--neglect_hla`: If set, variants in the HLA region is neglected.
 * `--seed`: Random seed.
 * `--tmp_dir`: Directory of tempfile.
-* `--output_dir`: Path to output directory. Output of sabre will be stored in `<output_dir>/<id>`
+* `--output_dir`: Path to output directory. Output of euler will be stored in `<output_dir>/<id>`
 * `--input_type`: How umi-barcode is provided, e.g. cellranger-style, umitools-style or 're' for custom regular expression.
 * `--bc_re`: The regular expression for extracting Cell Barcode in the BAM file.
 * `--umi_re`: The regular expression for extracting UMI in the BAM file.
@@ -409,7 +409,7 @@ We welcome any enquiries on usage of sabre on single-cell edQTL analysis!
 ### Output Options
 * `--verbose`: Determine whether output conflicted graphs in pdf and graphml format.
 * `--benchmark`: Determine wheter output benchmark information.
-* `--output_conflict`: Decide whether to output conflict graphs. This is a must if you want to use `sabre-somatic` for further somatic mutation analysis.
+* `--output_conflict`: Decide whether to output conflict graphs. This is a must if you want to use `euler-somatic` for further somatic mutation analysis.
 * `--residual_edge`: Decide whether to output residual edges (edges that are removed when resolving graph conflicts).
 * `--allele_linkage`: Decide whether output allele linkage count.
 * `--output_vcf`: Decide whether output vcf or not (severe performance decrease).
@@ -427,22 +427,22 @@ We welcome any enquiries on usage of sabre on single-cell edQTL analysis!
 * `--mono_alt`: Threshold on Dep_alt in putativeSNVs.csv. Default: `5`
 
 
-### Sabre-somatic Options
-#### `sabre-somatic run`
-* `--id`: The ID of `sabre` run.
+### euler-somatic Options
+#### `euler-somatic run`
+* `--id`: The ID of `euler` run.
 * `--vcf`: The germline VCF file of sample `id`.
-* `--chr`: Indicate the chromosome on which the `sabre-somatic` will be performed on.
-* `--output_dir`: If other `--output_dir` is set when calling `sabre`, this should be set as the same `--output_dir` as `sabre`.
-* `--gtf`: Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because sabre-somatic will have to depress the file everytime you input a compressed gtf file, which will result in a waste of time and disk space.
+* `--chr`: Indicate the chromosome on which the `euler-somatic` will be performed on.
+* `--output_dir`: If other `--output_dir` is set when calling `euler`, this should be set as the same `--output_dir` as `euler`.
+* `--gtf`: Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because euler-somatic will have to depress the file everytime you input a compressed gtf file, which will result in a waste of time and disk space.
 * `--cells`: Threshold on number of supporting cells.
 * `--reads`: Threshold on number of supporting reads.
 
-#### `sabre-somatic init`
-* `--gtf`: Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because sabre-somatic will have to depress the file everytime you input a compressed gtf file, which will result in a waste of time and disk space.
+#### `euler-somatic init`
+* `--gtf`: Input GTF file. We recommend you to input a .gtf file rather than a .gtf.gz file, because euler-somatic will have to depress the file everytime you input a compressed gtf file, which will result in a waste of time and disk space.
 
-#### `sabre-somatic filter`
-* `--id`: The ID of `sabre` run.
-* `--output_dir`: If other `--output_dir` is set when calling `sabre`, this should be set as the same `--output_dir` as `sabre`.
+#### `euler-somatic filter`
+* `--id`: The ID of `euler` run.
+* `--output_dir`: If other `--output_dir` is set when calling `euler`, this should be set as the same `--output_dir` as `euler`.
 
 
  ## Citation
