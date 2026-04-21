@@ -1,6 +1,6 @@
-![alt euler logo](./doc/euler.logo.png)
+<!-- ![alt euler logo](./doc/euler.logo.png) -->
 
-# euler - Single-cell reAd-Backed umi-awaRE phasing
+# euler - cEll-resolved Umi-Linked haplotypE Reconstruction
 
 
 ## What is euler
@@ -15,7 +15,7 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
  Runs on `python 3.x`, requires `samtools`, `vcftools`, `bedtools`.
 
  ## Table of contents
-- [euler - Single-cell reAd-Backed umi-awaRE phasing](#euler---single-cell-read-backed-umi-aware-phasing)
+- [euler - cEll-resolved Umi-Linked haplotypE Reconstruction](#euler---cell-resolved-umi-linked-haplotype-reconstruction)
   - [What is euler](#what-is-euler)
   - [Table of contents](#table-of-contents)
   - [Overall Structure](#overall-structure)
