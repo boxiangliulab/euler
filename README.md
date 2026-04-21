@@ -1,4 +1,4 @@
-<!-- ![alt euler logo](./doc/euler.logo.png) -->
+![alt euler logo](./doc/euler.png)
 
 # euler - cEll-resolved Umi-Linked haplotypE Reconstruction
 
