@@ -20,8 +20,6 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
   - [Table of contents](#table-of-contents)
   - [Overall Structure](#overall-structure)
   - [Installation Instructions](#installation-instructions)
-    - [Install from bioconda (Recommended)](#install-from-bioconda-recommended)
-    - [Install from pypi](#install-from-pypi)
     - [Install from source code](#install-from-source-code)
   - [Example Usage](#example-usage)
     - [TL;DR](#tldr)
@@ -55,7 +53,7 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
 
  ## Installation Instructions
 
- ### Install from bioconda (Recommended)
+ <!-- ### Install from bioconda (Recommended)
  Using anaconda can assure all the dependencies installed correctly. euler can be installed from the `bioconda` channel.
  ```bash
  $ conda install euler -c bioconda
@@ -65,7 +63,7 @@ Single-cell level haplotype phasing is key to studying clonal hematopoiesis, X c
  Installing euler from pypi requires `samtools`, `tabix`, `bcftools` preinstalled by user.
  ```bash
  $ pip install euler
- ```
+ ``` -->
 
  ### Install from source code
  The requirement is the same as installing from pypi.
